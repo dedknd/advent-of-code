@@ -76,7 +76,7 @@ void slice(int *diagnostic_slice, int index, int lineCount, enum generator_ratin
             zero[zeroCount++] = &diagnostic_slice[i * SIZE];
         }
     }
-    if (oneCount > zeroCount)
+    if (oneCount >= zeroCount)
     {
         if (rating == OXYGEN)
         {
@@ -140,7 +140,6 @@ void slice(int *diagnostic_slice, int index, int lineCount, enum generator_ratin
             free(arrayWithZeroAtIndex);
             return;
         }
-
     }
     else if (zeroCount > oneCount)
     {
@@ -175,7 +174,6 @@ void slice(int *diagnostic_slice, int index, int lineCount, enum generator_ratin
             free(arrayWithZeroAtIndex);
             return;
         }
-
         else if (rating == CO2) 
         {
             co2[index] = 1;
@@ -205,73 +203,6 @@ void slice(int *diagnostic_slice, int index, int lineCount, enum generator_ratin
                 }
             }
             free(arrayWithOneAtIndex);
-            return;
-        }
-
-    }
-    else
-    {
-        if (rating == OXYGEN)
-        {
-            oxygen[index] = 1;
-
-            int *arrayWithOneAtIndex = malloc(oneCount * SIZE * sizeof(int));
-            for (int i = 0; i < oneCount; i++)
-            {
-                for (int j = 0; j < SIZE; j++)
-                {
-                    arrayWithOneAtIndex[i * SIZE + j] = *(one[i] + j);
-                }
-            }
-            free(one);
-            free(zero);
-            if (index < SIZE - 1)
-            {
-                if (oneCount > 1)
-                {
-                    slice(arrayWithOneAtIndex, index + 1, oneCount, rating);
-                }
-                else
-                {
-                    for (int i = 0; i < SIZE; i++)
-                    {
-                        oxygen[i] = arrayWithOneAtIndex[i];
-                    }
-                }
-            }
-            free(arrayWithOneAtIndex);
-            return;
-        }
-
-        else if (rating == CO2)
-        {
-            co2[index] = 0;
-
-            int *arrayWithZeroAtIndex = malloc(zeroCount * SIZE * sizeof(int));
-            for (int i = 0; i < zeroCount; i++)
-            {
-                for (int j = 0; j < SIZE; j++)
-                {
-                    arrayWithZeroAtIndex[i * SIZE + j] = *(zero[i] + j);
-                }
-            }
-            free(one);
-            free(zero);
-            if (index < SIZE - 1)
-            {
-                if (zeroCount > 1)
-                {
-                    slice(arrayWithZeroAtIndex, index + 1, zeroCount, rating);
-                }
-                else
-                {
-                    for (int i = 0; i < SIZE; i++)
-                    {
-                        co2[i] = arrayWithZeroAtIndex[i];
-                    }
-                }
-            }
-            free(arrayWithZeroAtIndex);
             return;
         }
     }
