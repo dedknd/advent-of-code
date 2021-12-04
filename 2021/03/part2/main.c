@@ -141,7 +141,7 @@ void slice(int *diagnostic_slice, int index, int lineCount, enum generator_ratin
             return;
         }
     }
-    else if (zeroCount > oneCount)
+    else 
     {
         if (rating == OXYGEN)
         {
