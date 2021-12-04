@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 #if 0
 #define SIZE 5 
 #define LINES 12
@@ -10,6 +11,7 @@
 #define LINES 1000
 #define INPUT "input2.txt"
 #endif
+
 
 int oxygen[SIZE];
 int co2[SIZE];
@@ -102,9 +104,9 @@ void slice(int *diagnostic_slice, int index, int lineCount, enum generator_ratin
                     {
                         oxygen[i] = arrayWithOneAtIndex[i];
                     }
-                    return;
                 }
             }
+            free(arrayWithOneAtIndex);
             return;
         }
         else if (rating == CO2)
@@ -133,9 +135,9 @@ void slice(int *diagnostic_slice, int index, int lineCount, enum generator_ratin
                     {
                         co2[i] = arrayWithZeroAtIndex[i];
                     }
-                    return;
                 }
             }
+            free(arrayWithZeroAtIndex);
             return;
         }
 
@@ -168,9 +170,9 @@ void slice(int *diagnostic_slice, int index, int lineCount, enum generator_ratin
                     {
                         oxygen[i] = arrayWithZeroAtIndex[i];
                     }
-                    return;
                 }
             }
+            free(arrayWithZeroAtIndex);
             return;
         }
 
@@ -200,9 +202,9 @@ void slice(int *diagnostic_slice, int index, int lineCount, enum generator_ratin
                     {
                         co2[i] = arrayWithOneAtIndex[i];
                     }
-                    return;
                 }
             }
+            free(arrayWithOneAtIndex);
             return;
         }
 
@@ -235,9 +237,9 @@ void slice(int *diagnostic_slice, int index, int lineCount, enum generator_ratin
                     {
                         oxygen[i] = arrayWithOneAtIndex[i];
                     }
-                    return;
                 }
             }
+            free(arrayWithOneAtIndex);
             return;
         }
 
@@ -267,9 +269,9 @@ void slice(int *diagnostic_slice, int index, int lineCount, enum generator_ratin
                     {
                         co2[i] = arrayWithZeroAtIndex[i];
                     }
-                    return;
                 }
             }
+            free(arrayWithZeroAtIndex);
             return;
         }
     }
