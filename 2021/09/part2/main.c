@@ -102,7 +102,7 @@ int main(void)
                     largestBasins[2] = largestBasins[1];
                     largestBasins[1] = height[i][j].basinSize;
                 }
-                else if (height[i][j].basinSize >= largestBasins[0])
+                else if (height[i][j].basinSize >= largestBasins[2])
                 {
                     largestBasins[2] = height[i][j].basinSize;
                 }
