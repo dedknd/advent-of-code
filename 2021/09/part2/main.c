@@ -131,7 +131,7 @@ int exploreBasin(point (*height)[COL_SIZE], coordinates currentPoint)
     int bottom = (i == ROW_SIZE - 1) ? 1 : 0;
     int left = (j == 0) ? 1 : 0;
 
-    // recursively explore the basins
+    // recursively explore the basin
     if (!top && height[i - 1][j].value >= height[i][j].value && !height[i - 1][j].explored)
     {
         if (height[i - 1][j].value != 9)
