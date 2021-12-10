@@ -27,7 +27,7 @@ typedef struct {
     boolean isLowPoint;
 } point;
 
-int exploreBasin(point (*height)[COL_SIZE], coordinates currentPoint, coordinates parentPoint);
+int exploreBasin(point (*height)[COL_SIZE], coordinates currentPoint);
 int main(void)
 {
     char c;
@@ -89,8 +89,7 @@ int main(void)
             if (height[i][j].isLowPoint)
             {
                 coordinates currentPoint = (coordinates){i, j};
-                coordinates parentPoint = (coordinates){i, j};
-                height[i][j].basinSize += exploreBasin(height, currentPoint, parentPoint);
+                height[i][j].basinSize += exploreBasin(height, currentPoint);
 
                 if (height[i][j].basinSize >= largestBasins[0])
                 {
@@ -119,7 +118,7 @@ int main(void)
     printf("Product of the three largest basins sizes: %d\n", size);
 }
 
-int exploreBasin(point (*height)[COL_SIZE], coordinates currentPoint, coordinates parentPoint)
+int exploreBasin(point (*height)[COL_SIZE], coordinates currentPoint)
 {
     int i = currentPoint.row;
     int j = currentPoint.col;
@@ -133,40 +132,36 @@ int exploreBasin(point (*height)[COL_SIZE], coordinates currentPoint, coordinate
     int left = (j == 0) ? 1 : 0;
 
     // recursively explore the basins
-    if (!top && height[i - 1][j].value >= height[i][j].value && parentPoint.row != i - 1 && !height[i - 1][j].explored)
+    if (!top && height[i - 1][j].value >= height[i][j].value && !height[i - 1][j].explored)
     {
         if (height[i - 1][j].value != 9)
         {
-            coordinates parentPoint = (coordinates){i, j};
             coordinates currentPoint = (coordinates){i - 1, j};
-            basinSize += exploreBasin(height, currentPoint, parentPoint);
+            basinSize += exploreBasin(height, currentPoint);
         }
     }
-    if (!bottom && height[i + 1][j].value >= height[i][j].value && parentPoint.row != i + 1 && !height[i + 1][j].explored)
+    if (!bottom && height[i + 1][j].value >= height[i][j].value && !height[i + 1][j].explored)
     {
         if (height[i + 1][j].value != 9)
         {
-            coordinates parentPoint = (coordinates){i, j};
             coordinates currentPoint = (coordinates){i + 1, j};
-            basinSize += exploreBasin(height, currentPoint, parentPoint);
+            basinSize += exploreBasin(height, currentPoint);
         }
     }
-    if (!left && height[i][j - 1].value >= height[i][j].value && parentPoint.col != j - 1 && !height[i][j - 1].explored)
+    if (!left && height[i][j - 1].value >= height[i][j].value && !height[i][j - 1].explored)
     {
         if (height[i][j - 1].value != 9)
         {
-            coordinates parentPoint = (coordinates){i, j};
             coordinates currentPoint = (coordinates){i, j - 1};
-            basinSize += exploreBasin(height, currentPoint, parentPoint);
+            basinSize += exploreBasin(height, currentPoint);
         }
     }
-    if (!right && height[i][j + 1].value >= height[i][j].value && parentPoint.col != j + 1 && !height[i][j + 1].explored)
+    if (!right && height[i][j + 1].value >= height[i][j].value && !height[i][j + 1].explored)
     {
         if (height[i][j + 1].value != 9)
         {
-            coordinates parentPoint = (coordinates){i, j};
             coordinates currentPoint = (coordinates){i, j + 1};
-            basinSize += exploreBasin(height, currentPoint, parentPoint);
+            basinSize += exploreBasin(height, currentPoint);
         }
     }
     return basinSize; 
