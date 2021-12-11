@@ -130,24 +130,14 @@ int main(void)
 
                 // sort on insertion
                 scoreCount++;
-                for (int i = scoreCount - 1; i > 0; i--)
+                int i = scoreCount;
+                while (i >= 0 && scoreArray[i - 1] < completionScore)
                 {
-                    if (scoreArray[i - 1] < completionScore)
-                    {
-                        scoreArray[i] = scoreArray[i - 1];
-                    }
-                    else
-                    {
-                        scoreArray[i] = completionScore;
-                        break;
-                    }
+                    scoreArray[i] = scoreArray[i - 1];
+                    i--;
                 }
+                scoreArray[i] = completionScore;
 
-                // insert current score if largest
-                if (scoreArray[0] < completionScore)
-                {
-                    scoreArray[0] = completionScore;
-                }
                 completionScore = 0;
             }
             stack.top = EMPTY;
