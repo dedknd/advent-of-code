@@ -137,7 +137,6 @@ int main(void)
                     i--;
                 }
                 score[i] = completionScore;
-
                 completionScore = 0;
             }
             stack.top = EMPTY;
@@ -149,8 +148,7 @@ int main(void)
 void push(filo *stack, char c)
 {
     // no bounds checking!
-    stack->top += 1;     
-    stack->array[stack->top] = c;
+    stack->array[++stack->top] = c;
 }
 
 char pop(filo *stack)
