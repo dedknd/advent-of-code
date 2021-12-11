@@ -33,7 +33,7 @@ int main(void)
     filo stack; 
     stack.top = EMPTY;
     int scoreCount = 0;
-    unsigned long long scoreArray[SCORES]; 
+    unsigned long long score[SCORES]; 
     unsigned long long completionScore = 0;
     int scoreSum = 0;
 
@@ -131,19 +131,19 @@ int main(void)
                 // sort on insertion
                 scoreCount++;
                 int i = scoreCount;
-                while (i >= 0 && scoreArray[i - 1] < completionScore)
+                while (i >= 0 && score[i - 1] < completionScore)
                 {
-                    scoreArray[i] = scoreArray[i - 1];
+                    score[i] = score[i - 1];
                     i--;
                 }
-                scoreArray[i] = completionScore;
+                score[i] = completionScore;
 
                 completionScore = 0;
             }
             stack.top = EMPTY;
         }
     }
-    printf("Total completion score: %llu", scoreArray[scoreCount / 2]);
+    printf("Total completion score: %llu", score[scoreCount / 2]);
 }    
 
 void push(filo *stack, char c)
