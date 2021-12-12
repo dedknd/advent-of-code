@@ -2,16 +2,13 @@
 
 #if 0
 #define INPUT "input.txt"
-#define COLS 10
-#define ROWS 10
-#define SIZE (COLS * ROWS)
 #else
-#define COLS 10
-#define ROWS 10 
-#define SIZE (COLS * ROWS)
 #define INPUT "input2.txt"
 #endif
 
+#define COLS 10
+#define ROWS 10
+#define SIZE (COLS * ROWS)
 #define STEPS 100
 #define MAX_ENERGY 10
 
@@ -84,6 +81,7 @@ void cascadeEnergy(dumbo (*octopus)[COLS], coordinates currentOctopus, int *flas
         int bottom = (i == ROWS -1) ? 1 : 0;
         int left = (j == 0) ? 1 : 0;
 
+        // recursively cascade
         for (int k = i - 1 + top; k <= i + 1 - bottom; k++)
         {
             for (int l = j - 1 + left; l <= j + 1 - right; l++)
