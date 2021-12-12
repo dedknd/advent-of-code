@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#if 0
+#if 1
 #define INPUT "input.txt"
 #else
 #define INPUT "input2.txt"
@@ -69,6 +69,11 @@ void cascadeEnergy(dumbo (*octopus)[COLS], coordinates currentOctopus, int *flas
     int i = currentOctopus.row;
     int j = currentOctopus.col;
 
+    if (!octopus[i][j].highlighted && octopus[i][j].energy < MAX_ENERGY)
+    {
+        octopus[i][j].energy++;
+    }
+
     if (!octopus[i][j].highlighted && octopus[i][j].energy == MAX_ENERGY)
     {
         octopus[i][j].energy = 0;
@@ -94,15 +99,6 @@ void cascadeEnergy(dumbo (*octopus)[COLS], coordinates currentOctopus, int *flas
             }
         }
     }
-    else if (!octopus[i][j].highlighted)
-    {
-        octopus[i][j].energy++;
-        if (octopus[i][j].energy == MAX_ENERGY)
-        {
-            cascadeEnergy(octopus, currentOctopus, flashCount);
-        }
-    }
-
     return;
 }
 
