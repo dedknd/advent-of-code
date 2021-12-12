@@ -13,7 +13,7 @@
 #endif
 
 #define STEPS 100
-#define MAX_ENERGY 9
+#define MAX_ENERGY 10
 
 typedef enum {
     FALSE,
@@ -56,7 +56,7 @@ int main(void)
         {
             for (int j = 0; j < COLS; j++)
             {
-                if (octopus[i][j].energy > MAX_ENERGY)
+                if (octopus[i][j].energy == MAX_ENERGY)
                 {
                     coordinates currentOctopus = (coordinates){i, j};
                     cascadeEnergy(octopus, currentOctopus, &flashCount);
@@ -72,7 +72,7 @@ void cascadeEnergy(dumbo (*octopus)[COLS], coordinates currentOctopus, int *flas
     int i = currentOctopus.row;
     int j = currentOctopus.col;
 
-    if (!octopus[i][j].highlighted && octopus[i][j].energy > MAX_ENERGY)
+    if (!octopus[i][j].highlighted && octopus[i][j].energy == MAX_ENERGY)
     {
         octopus[i][j].energy = 0;
         octopus[i][j].highlighted = TRUE;
@@ -84,56 +84,22 @@ void cascadeEnergy(dumbo (*octopus)[COLS], coordinates currentOctopus, int *flas
         int bottom = (i == ROWS -1) ? 1 : 0;
         int left = (j == 0) ? 1 : 0;
 
-        // above
-        if (!top && !octopus[i - 1][j].highlighted && octopus[i - 1][j].energy < 10)
+        for (int k = i - 1 + top; k <= i + 1 - bottom; k++)
         {
-            coordinates currentOctopus = (coordinates){i - 1, j};
-            cascadeEnergy(octopus, currentOctopus, flashCount); 
-        }
-        if (!top && !left && !octopus[i - 1][j - 1].highlighted && octopus[i - 1][j - 1].energy < 10)
-        {
-            coordinates currentOctopus = (coordinates){i - 1, j - 1};
-            cascadeEnergy(octopus, currentOctopus, flashCount); 
-        }
-        if (!top && !right && !octopus[i - 1][j + 1].highlighted && octopus[i - 1][j + 1].energy < 10)
-        {
-            coordinates currentOctopus = (coordinates){i - 1, j + 1};
-            cascadeEnergy(octopus, currentOctopus, flashCount); 
-        }
-
-        // lateral
-        if (!left && !octopus[i][j - 1].highlighted && octopus[i][j - 1].energy < 10)
-        {
-            coordinates currentOctopus = (coordinates){i, j - 1};
-            cascadeEnergy(octopus, currentOctopus, flashCount); 
-        }
-        if (!right && !octopus[i][j + 1].highlighted && octopus[i][j + 1].energy < 10)
-        {
-            coordinates currentOctopus = (coordinates){i, j + 1};
-            cascadeEnergy(octopus, currentOctopus, flashCount); 
-        }
-
-        // below
-        if (!bottom && !octopus[i + 1][j].highlighted && octopus[i + 1][j].energy < 10)
-        {
-            coordinates currentOctopus = (coordinates){i + 1, j};
-            cascadeEnergy(octopus, currentOctopus, flashCount); 
-        }
-        if (!bottom && !left && !octopus[i + 1][j - 1].highlighted && octopus[i + 1][j - 1].energy < 10)
-        {
-            coordinates currentOctopus = (coordinates){i + 1, j - 1};
-            cascadeEnergy(octopus, currentOctopus, flashCount); 
-        }
-        if (!bottom && !right && !octopus[i + 1][j + 1].highlighted && octopus[i + 1][j + 1].energy < 10)
-        {
-            coordinates currentOctopus = (coordinates){i + 1, j + 1};
-            cascadeEnergy(octopus, currentOctopus, flashCount); 
+            for (int l = j - 1 + left; l <= j + 1 - right; l++)
+            {
+                if (!octopus[k][l].highlighted && octopus[k][l].energy < MAX_ENERGY)
+                {
+                    coordinates currentOctopus = (coordinates){k, l};
+                    cascadeEnergy(octopus, currentOctopus, flashCount);
+                }
+            }
         }
     }
     else
     {
         octopus[i][j].energy++;
-        if (octopus[i][j].energy > MAX_ENERGY)
+        if (octopus[i][j].energy == MAX_ENERGY)
         {
             coordinates currentOctopus = (coordinates){i, j};
             cascadeEnergy(octopus, currentOctopus, flashCount);
