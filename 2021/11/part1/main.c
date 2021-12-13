@@ -53,7 +53,7 @@ int main(void)
         {
             for (int j = 0; j < COLS; j++)
             {
-                if (!octopus[i][j].highlighted && octopus[i][j].energy == MAX_ENERGY)
+                if (octopus[i][j].energy == MAX_ENERGY)
                 {
                     coordinates currentOctopus = (coordinates){i, j};
                     cascadeEnergy(octopus, currentOctopus, &flashCount);
@@ -69,12 +69,12 @@ void cascadeEnergy(dumbo (*octopus)[COLS], coordinates currentOctopus, int *flas
     int i = currentOctopus.row;
     int j = currentOctopus.col;
 
-    if (!octopus[i][j].highlighted && octopus[i][j].energy < MAX_ENERGY)
+    if (octopus[i][j].energy < MAX_ENERGY)
     {
         octopus[i][j].energy++;
     }
 
-    if (!octopus[i][j].highlighted && octopus[i][j].energy == MAX_ENERGY)
+    if (octopus[i][j].energy == MAX_ENERGY)
     {
         octopus[i][j].energy = 0;
         octopus[i][j].highlighted = TRUE;
@@ -91,7 +91,7 @@ void cascadeEnergy(dumbo (*octopus)[COLS], coordinates currentOctopus, int *flas
         {
             for (int l = j - 1 + left; l <= j + 1 - right; l++)
             {
-                if (!octopus[k][l].highlighted && octopus[k][l].energy < MAX_ENERGY)
+                if (!octopus[k][l].highlighted)
                 {
                     coordinates currentOctopus = (coordinates){k, l};
                     cascadeEnergy(octopus, currentOctopus, flashCount);
