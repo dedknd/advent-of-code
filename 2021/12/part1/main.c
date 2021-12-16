@@ -208,7 +208,7 @@ int buildMap(cave **map, int *caveCount)
     // find map index for start cave
     int startCave;
     int count = *caveCount;
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i <= count; i++)
     {
         if (sameCave(map[i]->name, "start"))
         {
