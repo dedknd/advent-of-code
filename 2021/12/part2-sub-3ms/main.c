@@ -16,7 +16,6 @@
 #define NOT_IN_MAP (-1)
 #define LENGTH 10
 
-// now defined in windows.h
 //typedef enum
 //{
 //    FALSE,
@@ -35,7 +34,7 @@ typedef struct cave
 void buildMap(cave **map, int *caveCount);
 void cleanMap(cave **map, int caveCount);
 int checkMap(cave **map, cave *currentCave, int *caveCount);
-int findPath(cave *currentCave, boolean joker, cave *revisitedCave);
+int findPath(cave *currentCave, cave *revisitedCave);
 boolean sameCave(char *firstCave, char *secondCave);
 
 // low effort globals to avoid sameCave() string comparisons
@@ -55,9 +54,8 @@ int main(void)
     buildMap(map, &caveCount);
 
     cave *currentCave = start;
-    boolean joker = TRUE; // this token is used to communicate between recursive call stacks
     cave *revisitedCave = NULL; // stores small cave when visiting twice 
-    int pathCount = findPath(currentCave, joker, revisitedCave);
+    int pathCount = findPath(currentCave, revisitedCave);
 
     QueryPerformanceCounter(&perfCount);
     unsigned long long endCount = perfCount.QuadPart;
@@ -67,7 +65,7 @@ int main(void)
     printf("Visited %d paths through this cave system in %lf ms.\n", pathCount, time);
 }
 
-int findPath(cave *currentCave, boolean joker, cave *revisitedCave)
+int findPath(cave *currentCave, cave *revisitedCave)
 {
     int pathCount = 0;
     int neighborCount = currentCave->neighborCount; 
@@ -86,24 +84,19 @@ int findPath(cave *currentCave, boolean joker, cave *revisitedCave)
         }
         else if (nextCave->isAccessible && nextCave != start)
         {
-             pathCount += findPath(nextCave, joker, revisitedCave);
+             pathCount += findPath(nextCave, revisitedCave);
         }
-        else if (nextCave != start && !nextCave->isAccessible && joker)
+        else if (nextCave != start && !nextCave->isAccessible && !revisitedCave)
         {
             revisitedCave = nextCave;
-            joker = FALSE;
-            pathCount += findPath(nextCave, joker, revisitedCave);
-            joker = TRUE;
+            pathCount += findPath(nextCave, revisitedCave);
+            revisitedCave = NULL;
         }
         neighborCount--;
     }
     if (currentCave != revisitedCave)
     {
         currentCave->isAccessible = TRUE;
-    }
-    else
-    {
-        revisitedCave = NULL;
     }
     return pathCount;
 }
@@ -234,10 +227,10 @@ void buildMap(cave **map, int *caveCount)
     }
     fclose(file);
 
-    // find map index for start cave
+    // find start and end cave
     int startCave;
     int localCount = *caveCount;
-    for (int i = 0; i < localCount; i++)
+    for (int i = 0; i <= localCount; i++)
     {
         if (sameCave(map[i]->name, "start"))
         {
