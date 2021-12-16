@@ -56,6 +56,7 @@ int findPath(cave *currentCave, cave *revisitedCave)
 {
     int pathCount = 0;
     int neighborCount = currentCave->neighborCount; 
+    cave *nextCave = currentCave->neighbor[neighborCount - 1];
 
     if (!currentCave->isBig)
     {
@@ -64,16 +65,16 @@ int findPath(cave *currentCave, cave *revisitedCave)
 
     while (neighborCount > 0)
     {
-        cave *nextCave = currentCave->neighbor[neighborCount - 1];
+        nextCave = currentCave->neighbor[neighborCount - 1];
         if (nextCave == end)
         {
             pathCount++;
         }
-        else if (nextCave->isAccessible && nextCave != start)
+        else if (nextCave->isAccessible)
         {
              pathCount += findPath(nextCave, revisitedCave);
         }
-        else if (nextCave != start && !nextCave->isAccessible && !revisitedCave)
+        else if (!revisitedCave && nextCave != start)
         {
             revisitedCave = nextCave;
             pathCount += findPath(nextCave, revisitedCave);
