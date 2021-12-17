@@ -8,13 +8,13 @@
 #define MAX_NEIGHBORS 4
 #else 
 #define INPUT "input2.txt"
-#define MAX_CAVES 20
-#define MAX_NEIGHBORS 20
+#define MAX_CAVES 12
+#define MAX_NEIGHBORS 7
 #endif
 
 #define EMPTY (-1)
 #define NOT_IN_MAP (-1)
-#define LENGTH 10
+#define LENGTH 6
 
 //typedef enum
 //{
@@ -223,7 +223,6 @@ void buildMap(cave **map, int *caveCount)
     fclose(file);
 
     // find start and end cave
-    int startCave;
     int localCount = *caveCount;
     for (int i = 0; i < localCount; i++)
     {
