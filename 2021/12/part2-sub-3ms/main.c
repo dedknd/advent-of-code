@@ -33,7 +33,7 @@ typedef struct cave
 
 void buildMap(cave **map, int *caveCount);
 void cleanMap(cave **map, int caveCount);
-int checkMap(cave **map, cave *currentCave, int *caveCount);
+int checkMap(cave **map, char *currentCave, int *caveCount);
 int findPath(cave *currentCave, cave *revisitedCave);
 boolean sameCave(char *firstCave, char *secondCave);
 
@@ -102,12 +102,12 @@ int findPath(cave *currentCave, cave *revisitedCave)
     return pathCount;
 }
 
-int checkMap(cave **map, cave *currentCave, int *caveCount)
+int checkMap(cave **map, char *currentCave, int *caveCount)
 {
             int localCount = *caveCount;
             for (int i = 0; i < localCount; i++)
             {
-                if(sameCave(currentCave->name, map[i]->name))
+                if(sameCave(currentCave, map[i]->name))
                 {
                     return i;
                 }
@@ -144,82 +144,76 @@ void buildMap(cave **map, int *caveCount)
         else if (c == '-')
         {
             buffer[length++] = '\0';         
-            cave *currentCave = malloc(sizeof(cave));
-            currentCave->name = malloc(sizeof(char) * length);
-            currentCave->neighborCount = 0;
-            currentCave->isAccessible = TRUE;
-
-            if (buffer[0] >= 'A' && buffer[0] <= 'Z')
-            {
-                currentCave->isBig = TRUE;
-            }
-            else
-            {
-                currentCave->isBig = FALSE;
-            }
-
-            // copy buffer to currentCave->name
-            int i = 0;
-            while (length > 0)
-            {
-                currentCave->name[i] = buffer[i];
-                i++;
-                length--;
-            }
 
             // check for duplicates
-            index = checkMap(map, currentCave, caveCount); 
+            index = checkMap(map, buffer, caveCount); 
             if (index == NOT_IN_MAP)
             {
+                cave *currentCave = malloc(sizeof(cave));
+                currentCave->name = malloc(sizeof(char) * length);
+                currentCave->neighborCount = 0;
+                currentCave->isAccessible = TRUE;
+
+                if (buffer[0] >= 'A' && buffer[0] <= 'Z')
+                {
+                    currentCave->isBig = TRUE;
+                }
+                else
+                {
+                    currentCave->isBig = FALSE;
+                }
+
+                // copy buffer to currentCave->name
+                for (int i = 0; i < length; i++)
+                {
+                    currentCave->name[i] = buffer[i];
+                }
+
                 map[(*caveCount)++] = currentCave;
                 firstCave = currentCave;
             }
             else
             {
                 firstCave = map[index];
-                free(currentCave->name);
-                free(currentCave);
             }
+            length = 0;
         }
         else if (c == '\n')
         {
             buffer[length++] = '\0';         
-            cave *currentCave = malloc(sizeof(cave));
-            currentCave->name = malloc(sizeof(char) * length);
-            currentCave->neighborCount = 0;
-            currentCave->isAccessible = TRUE;
-
-            if (buffer[0] >= 'A' && buffer[0] <= 'Z')
-            {
-                currentCave->isBig = TRUE;
-            }
-            else
-            {
-                currentCave->isBig = FALSE;
-            }
-
-            // copy buffer to currentCave->name
-            int i = 0;
-            while (length > 0)
-            {
-                currentCave->name[i] = buffer[i];
-                i++;
-                length--;
-            }
 
             // check for duplicates
-            index = checkMap(map, currentCave, caveCount); 
+            index = checkMap(map, buffer, caveCount); 
             if (index == NOT_IN_MAP)
             {
+                cave *currentCave = malloc(sizeof(cave));
+                currentCave->name = malloc(sizeof(char) * length);
+                currentCave->neighborCount = 0;
+                currentCave->isAccessible = TRUE;
+
+                if (buffer[0] >= 'A' && buffer[0] <= 'Z')
+                {
+                    currentCave->isBig = TRUE;
+                }
+                else
+                {
+                    currentCave->isBig = FALSE;
+                }
+
+                // copy buffer to currentCave->name
+                for (int i = 0; i < length; i++)
+                {
+                    currentCave->name[i] = buffer[i];
+                }
+
                 map[(*caveCount)++] = currentCave;
                 secondCave = currentCave;
             }
             else
             {
                 secondCave = map[index];
-                free(currentCave->name);
-                free(currentCave);
             }
+            length = 0;
             
             // build adjacency list
             firstCave->neighbor[firstCave->neighborCount++] = secondCave;
