@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if 0
+#if 1
 #define INPUT "input.txt"
 #define MAX_CAVES 6
 #define MAX_NEIGHBORS 4
@@ -43,7 +43,7 @@ cave *end;
 int main(void)
 {
     cave *map[MAX_CAVES];
-    int caveCount = EMPTY;
+    int caveCount = 0;
     buildMap(map, &caveCount);
     cave *currentCave = start;
     cave *revisitedCave = NULL; // stores small cave when visiting twice 
@@ -56,7 +56,7 @@ int findPath(cave *currentCave, cave *revisitedCave)
 {
     int pathCount = 0;
     int neighborCount = currentCave->neighborCount; 
-    cave *nextCave;
+    cave *nextCave = currentCave->neighbor[neighborCount - 1];
 
     if (!currentCave->isBig)
     {
@@ -92,7 +92,7 @@ int findPath(cave *currentCave, cave *revisitedCave)
 int checkMap(cave **map, cave *currentCave, int *caveCount)
 {
             int localCount = *caveCount;
-            for (int i = 0; i <= localCount; i++)
+            for (int i = 0; i < localCount; i++)
             {
                 if(sameCave(currentCave->name, map[i]->name))
                 {
@@ -158,7 +158,7 @@ void buildMap(cave **map, int *caveCount)
             index = checkMap(map, currentCave, caveCount); 
             if (index == NOT_IN_MAP)
             {
-                map[++(*caveCount)] = currentCave;
+                map[(*caveCount)++] = currentCave;
                 firstCave = currentCave;
             }
             else
@@ -198,7 +198,7 @@ void buildMap(cave **map, int *caveCount)
             index = checkMap(map, currentCave, caveCount); 
             if (index == NOT_IN_MAP)
             {
-                map[++(*caveCount)] = currentCave;
+                map[(*caveCount)++] = currentCave;
                 secondCave = currentCave;
             }
             else
@@ -218,7 +218,7 @@ void buildMap(cave **map, int *caveCount)
     // find start and end cave
     int startCave;
     int localCount = *caveCount;
-    for (int i = 0; i <= localCount; i++)
+    for (int i = 0; i < localCount; i++)
     {
         if (sameCave(map[i]->name, "start"))
         {
