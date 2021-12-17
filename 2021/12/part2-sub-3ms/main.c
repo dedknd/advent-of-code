@@ -50,7 +50,7 @@ int main(void)
     unsigned long long beginCount = perfCount.QuadPart;  
 
     cave *map[MAX_CAVES];
-    int caveCount = EMPTY;
+    int caveCount = 0;
     buildMap(map, &caveCount);
 
     cave *currentCave = start;
@@ -105,7 +105,7 @@ int findPath(cave *currentCave, cave *revisitedCave)
 int checkMap(cave **map, cave *currentCave, int *caveCount)
 {
             int localCount = *caveCount;
-            for (int i = 0; i <= localCount; i++)
+            for (int i = 0; i < localCount; i++)
             {
                 if(sameCave(currentCave->name, map[i]->name))
                 {
@@ -171,7 +171,7 @@ void buildMap(cave **map, int *caveCount)
             index = checkMap(map, currentCave, caveCount); 
             if (index == NOT_IN_MAP)
             {
-                map[++(*caveCount)] = currentCave;
+                map[(*caveCount)++] = currentCave;
                 firstCave = currentCave;
             }
             else
@@ -211,7 +211,7 @@ void buildMap(cave **map, int *caveCount)
             index = checkMap(map, currentCave, caveCount); 
             if (index == NOT_IN_MAP)
             {
-                map[++(*caveCount)] = currentCave;
+                map[(*caveCount)++] = currentCave;
                 secondCave = currentCave;
             }
             else
@@ -231,7 +231,7 @@ void buildMap(cave **map, int *caveCount)
     // find start and end cave
     int startCave;
     int localCount = *caveCount;
-    for (int i = 0; i <= localCount; i++)
+    for (int i = 0; i < localCount; i++)
     {
         if (sameCave(map[i]->name, "start"))
         {
