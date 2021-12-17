@@ -69,7 +69,7 @@ int findPath(cave *currentCave, cave *revisitedCave)
 {
     int pathCount = 0;
     int neighborCount = currentCave->neighborCount; 
-    cave *nextCave = currentCave->neighbor[neighborCount - 1];
+    cave *nextCave;
 
     if (!currentCave->isBig)
     {
