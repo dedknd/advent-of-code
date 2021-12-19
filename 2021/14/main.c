@@ -57,14 +57,14 @@ int main(void)
         }
 
     }
-    unsigned long long mostCommonelement = 0;
-    unsigned long long leastCommonelement = (unsigned long long)((long long)(-1));
+    unsigned long long mostCommonElement = 0;
+    unsigned long long leastCommonElement = (unsigned long long)((long long)(-1));
     for (int i = 0; i < MAX_ELEMENTS; i++)
     {
-        if (elementCount[i] > mostCommonelement) mostCommonelement = elementCount[i];
-        if (elementCount[i] < leastCommonelement && elementCount[i] > 0) leastCommonelement = elementCount[i];
+        if (elementCount[i] > mostCommonElement) mostCommonElement = elementCount[i];
+        if (elementCount[i] < leastCommonElement && elementCount[i] > 0) leastCommonElement = elementCount[i];
     }
-    unsigned long long solution = mostCommonelement - leastCommonelement;
+    unsigned long long solution = mostCommonElement - leastCommonElement;
     printf("Difference of most common element und least common element: %llu\n", solution);
 }
 
