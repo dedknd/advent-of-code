@@ -129,7 +129,6 @@ int main(void)
                 }
 
                 // sort on insertion
-                scoreCount++;
                 int i = scoreCount;
                 while (i > 0 && score[i - 1] < completionScore)
                 {
@@ -138,6 +137,7 @@ int main(void)
                 }
                 score[i] = completionScore;
                 completionScore = 0;
+                scoreCount++;
             }
             stack.top = EMPTY;
         }
