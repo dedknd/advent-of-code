@@ -131,7 +131,7 @@ int main(void)
                 // sort on insertion
                 scoreCount++;
                 int i = scoreCount;
-                while (i >= 0 && score[i - 1] < completionScore)
+                while (i > 0 && score[i - 1] < completionScore)
                 {
                     score[i] = score[i - 1];
                     i--;
